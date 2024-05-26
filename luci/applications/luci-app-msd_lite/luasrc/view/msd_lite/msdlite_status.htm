@@ -1,0 +1,69 @@
+<script type="text/javascript">//<![CDATA[
+XHR.poll(2, '<%=luci.dispatcher.build_url("admin", "services", "msd_lite", "status")%>', null,
+	function(x, data) {
+		var tb = document.getElementById('msdlite_status');
+		if (data && tb) {
+			if (data.running) {
+				var links = '<font color=green>MSD Lite <%:running%></font>';
+				tb.innerHTML = links;
+			} else {
+				tb.innerHTML = '<font color=red>MSD Lite <%:stoped%></font>';
+			}
+		}
+	}
+);
+//]]>
+</script>
+<style>.mar-10 {margin-left: 50px; margin-right: 10px;}</style>
+<fieldset class="cbi-section">
+	<p id="msdlite_status">
+		<em><%:Collecting data...%></em>
+	</p>
+</fieldset>
+
+<script type="text/javascript">//<![CDATA[
+
+	XHR.poll(5, '<%=url('admin/services/msd_lite/act_status')%>', null,
+		function(x, st)
+		{
+			var tb = document.getElementById('msd_status_table');
+			if (st && tb)
+			{
+				/* clear all rows */
+				while( tb.rows.length > 1 )
+					tb.deleteRow(1);
+
+				for( var i = 0; i < st.length; i++ )
+				{
+					var tr = tb.insertRow(-1);
+						tr.className = 'cbi-section-table-row cbi-rowstyle-' + ((i % 2) + 1);
+
+					tr.insertCell(-1).innerHTML = st[i].client;
+
+				}
+
+				if( tb.rows.length == 1 )
+				{
+					var tr = tb.insertRow(-1);
+						tr.className = 'cbi-section-table-row';
+
+					var td = tr.insertCell(-1);
+						td.colSpan = 5;
+						td.innerHTML = '<em><br /><%:There are no active connect.%></em>';
+				}
+			}
+		}
+	);
+//]]></script>
+
+<fieldset class="cbi-section">
+	<legend><%:msd connect list%></legend>
+	<table class="cbi-section-table" id="msd_status_table">
+		<tr class="cbi-section-table-titles">
+			<th class="cbi-section-table-cell"><%:Connected Ip%></th>
+		</tr>
+		<tr class="cbi-section-table-row">
+			<td colspan="5"><em><br /><%:Collecting data...%></em></td>
+		</tr>
+	</table>
+</fieldset>
