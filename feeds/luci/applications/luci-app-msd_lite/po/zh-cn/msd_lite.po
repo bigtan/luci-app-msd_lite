@@ -1,0 +1,42 @@
+msgid "msd_lite"
+msgstr "Msd 多播转发"
+
+msgid "msd_lite is a UDP-to-HTTP multicast traffic relay daemon, here you can configure the settings."
+msgstr "Msd Lite 是一个 UDP 到 HTTP 多播流量中继转发守护进程，你可以在此处配置参数。"
+
+msgid "Enabled"
+msgstr "启用"
+
+msgid "Port"
+msgstr "监听端口"
+
+msgid "Source Interface"
+msgstr "源端口"
+
+msgid "Max CPU threads"
+msgstr "最大CPU线程数"
+
+msgid "0 = auto"
+msgstr "0 = 自动"
+
+msgid "Log file"
+msgstr "日志文件"
+
+msgid "running"
+msgstr "已启动"
+
+msgid "stoped"
+msgstr "已停止"
+
+msgid "Collecting data..."
+msgstr "加载数据中..."
+
+msgid "msd connect list"
+msgstr "MSD 连接信息"
+
+msgid "Connected Ip"
+msgstr "已连接的IP地址"
+
+
+msgid "There are no active connect."
+msgstr "没有活动的连接"
