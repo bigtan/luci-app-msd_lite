@@ -1,22 +1,19 @@
+# SPDX-License-Identifier: GPL-3.0-only
 #
-# Copyright (C) 2006-2023 OpenWrt.org
-#
-# This is free software, licensed under the GNU General Public License v2.
-# See /LICENSE for more information.
-#
+# Copyright (C) 2022 ImmortalWrt.org
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=msd_lite
-PKG_VERSION:=1.11
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2024-03-15
 PKG_SOURCE_URL:=https://github.com/rozhuk-im/msd_lite.git
+PKG_SOURCE_DATE:=2024-03-16
 PKG_SOURCE_VERSION:=cfef57f31aba00aa2bfa147b6d491aa16a2a37e8
-PKG_MIRROR_HASH:=df89bb2172161e61a5be1dc1ef325f7ca12343541f2389ed6452207147c5bd45
+PKG_MIRROR_HASH:=abbcdbcaef5524fc081b141a894c103195923f7e37401093a32845619c9180e7
 
+PKG_MAINTAINER:=Tianling Shen <cnsztl@immrotalwrt.org>
 PKG_LICENSE:=BSD-2-Clause
 PKG_LICENSE_FILES:=LICENSE
 
@@ -26,26 +23,32 @@ include $(INCLUDE_DIR)/cmake.mk
 define Package/msd_lite
   SECTION:=net
   CATEGORY:=Network
-  TITLE:=Multi Stream daemon Lite
-  URL:=https://github.com/rozhuk-im/msd_litea
-  DEPENDS:= +libpthread
+  TITLE:=Program for IP TV streaming on the network via HTTP
+  URL:=http://www.netlab.linkpc.net/wiki/ru:software:msd:lite
 endef
 
 define Package/msd_lite/description
-Program for IP TV streaming on the network via HTTP
+  msd_lite - Multi stream daemon lite. The lightweight version of
+  Multi Stream daemon (msd) Program for organizing IP TV streaming
+  on the network via HTTP.
 endef
 
 define Package/msd_lite/conffiles
-/etc/msd_lite/msd_lite.conf
+/etc/config/msd_lite
 endef
 
-CMAKE_OPTIONS += \
-	-DCONFDIR=/etc/msd_lite
+CMAKE_OPTIONS+= -DCONFDIR=../etc/msd_lite
 
 define Package/msd_lite/install
-	$(INSTALL_DIR) $(1)/etc/msd_lite $(1)/usr/bin
-	$(INSTALL_CONF) $(PKG_BUILD_DIR)/conf/msd_lite.conf $(1)/etc/msd_lite/
+	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/msd_lite $(1)/usr/bin/
+
+	$(INSTALL_DIR) $(1)/etc/msd_lite
+	$(CP) $(CURDIR)/files/msd_lite.sample $(1)/etc/msd_lite/msd_lite.conf.sample
+	$(INSTALL_DIR) $(1)/etc/config
+	$(INSTALL_CONF) $(CURDIR)/files/msd_lite.config $(1)/etc/config/msd_lite
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_BIN) $(CURDIR)/files/msd_lite.init $(1)/etc/init.d/msd_lite
 endef
 
 $(eval $(call BuildPackage,msd_lite))
